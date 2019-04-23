@@ -88,9 +88,3 @@ export class AddContact extends Component {
 export default AddContact
 
 
-// onChange = { e => this.setState({ name: e.target.value }) }
-
-// onChange = e => this.setState({ [e.target.name]: e.target.value })
-// odnosi se na atribut name u inputu i sta god da je u njemu
-
-// ref={el => this.inputElement = el}
