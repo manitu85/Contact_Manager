@@ -59,6 +59,7 @@ export class AddContact extends Component {
     });
 
     e.preventDefault();
+    this.props.history.push('/'); // Redirect to home page
   };
 
   render() {
