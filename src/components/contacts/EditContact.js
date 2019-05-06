@@ -4,13 +4,27 @@ import { Consumer } from "../../context";
 import TextInputGroup from "../layout/TextInputGroup";
 import axios from 'axios'
 
-export class AddContact extends Component {
+export class EditContact extends Component {
   state = {
     name: "",
     email: "",
     phone: "",
     errors: {}
   };
+
+  async componentDidMount() {
+    const { id } = this.props.match.params;
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
+
+    const contact = response.data;
+
+    this.setState({
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone
+    })
+  }
+  
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -20,38 +34,39 @@ export class AddContact extends Component {
     // Check for errors
     if (name === "") {
       this.setState({
-        errors: {name: "Name field is required"}
+        errors: { name: "Name field is required" }
       });
       return;
     }
 
     if (email === "") {
       this.setState({
-        errors: {email: "Email field is required"}
+        errors: { email: "Email field is required" }
       });
       return;
     }
 
     if (phone === "") {
       this.setState({
-        errors: {phone: "Phone field is required"}
+        errors: { phone: "Phone field is required" }
       });
       return;
     }
 
-    const newContact = {
-      // id: uuid,
-      name,
-      email,
+    const updateContact = {
+      name, 
+      email, 
       phone
-    };
+    }
 
-    axios.post('https://jsonplaceholder.typicode.com/users', newContact)
+    const { id } = this.props.match.params;
+  
+    axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, updateContact)
       .then(response => dispatch({
-        type: "ADD_CONTACT",
+        type: 'UPDATE_CONTACT',
         payload: response.data
       }))
-   
+
 
     // Clear state 
     this.setState({
@@ -73,7 +88,7 @@ export class AddContact extends Component {
           const { dispatch } = value;
           return (
             <div className="card mb-3">
-              <div className="card-header">Add Contact</div>
+              <div className="card-header">Edit Contact</div>
               <div className="card-body">
                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                   <TextInputGroup
@@ -108,7 +123,7 @@ export class AddContact extends Component {
                   />
 
                   <button type="submit" className="btn btn-danger">
-                    Add Contact
+                    Update Contact
                   </button>
                 </form>
               </div>
@@ -120,6 +135,6 @@ export class AddContact extends Component {
   }
 }
 
-export default AddContact;
+export default EditContact;
 
 

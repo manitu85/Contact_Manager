@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from '../../context';
+import { Consumer } from '../../context'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export class Contact extends Component {
 
@@ -46,6 +47,13 @@ export class Contact extends Component {
                     onClick={this.onDeleteClick.bind(this, id, dispatch)}
                 >
                 </i>
+                <Link to={`contact/edit/${id}`}>
+                  <i 
+                    className='fas fa-pencil-alt'
+                    style={{ cursor: 'pointer', float: 'right', color: 'blue', marginRight: '15px' }}
+                  >
+                  </i>
+                </Link>
               </h4>
               {
                 this.state.showContactInfo
